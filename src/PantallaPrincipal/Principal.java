@@ -23,6 +23,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -846,7 +848,11 @@ public class Principal extends javax.swing.JFrame {
         jButton2.setText("Ticket");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                try {
+                    jButton2ActionPerformed(evt);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -856,7 +862,11 @@ public class Principal extends javax.swing.JFrame {
         btnEfectivo.setText("Efectivo");
         btnEfectivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEfectivoActionPerformed(evt);
+                try {
+                    btnEfectivoActionPerformed(evt);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -876,15 +886,23 @@ public class Principal extends javax.swing.JFrame {
         btnTarjeta.setText("Tarjeta");
         btnTarjeta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTarjetaActionPerformed(evt);
+                try {
+                    btnTarjetaActionPerformed(evt);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
         btnOnline.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        btnOnline.setText("Online");
+        btnOnline.setText("C. DNI");
         btnOnline.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnOnlineActionPerformed(evt);
+                try {
+                    btnOnlineActionPerformed(evt);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -1163,7 +1181,7 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnEfectivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEfectivoActionPerformed
+    private void btnEfectivoActionPerformed(java.awt.event.ActionEvent evt) throws IOException {//GEN-FIRST:event_btnEfectivoActionPerformed
 
         if (cmbVenta.getSelectedIndex() == 0) {
             b.venta(1, txtTotal, txtOrden, txtDelivery, txtVntasDia, txtVntasDelivery, txtVntasOtros, txtElturno, fecha22, pedidosya, pedidosyabtn, tabla, jScrollPane1, tStockeo);
@@ -1249,7 +1267,7 @@ public class Principal extends javax.swing.JFrame {
 
         }
         
-        Ticket.ImprimirDocumento(ultimoticket);
+        Ticket.ImprimirDocumento(ultimoticket.getBytes());
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void txtElturnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtElturnoActionPerformed
@@ -1468,11 +1486,11 @@ public class Principal extends javax.swing.JFrame {
         txResumen.append("Debito: $" + debito);
         txResumen.append(System.getProperty("line.separator")); // Esto para el salto de línea
         txResumen.append(System.getProperty("line.separator")); // Esto para el salto de línea
-        txResumen.append("Online: $" + online);
+        txResumen.append("Cuenta DNI: $" + online);
         txResumen.append(System.getProperty("line.separator")); // Esto para el salto de línea
-        txResumen.append("   MercadoPAgo: $" + (online-pedidosya));
-        txResumen.append(System.getProperty("line.separator")); // Esto para el salto de línea
-        txResumen.append("   PedidosYa: $" + pedidosya);
+        txResumen.append("   Cuenta DNI: $" + (online-pedidosya));
+      //  txResumen.append(System.getProperty("line.separator")); // Esto para el salto de línea
+       // txResumen.append("   PedidosYa: $" + pedidosya);
         txResumen.append(System.getProperty("line.separator")); // Esto para el salto de línea
         txResumen.append(System.getProperty("line.separator")); // Esto para el salto de línea
         if(sobrante >= 0){
@@ -1543,7 +1561,7 @@ public class Principal extends javax.swing.JFrame {
         por.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 String strin = txResumen.getText();
-                Ticket.ImprimirDocumento(strin);
+                Ticket.ImprimirDocumento(strin.getBytes());
             }
         });
         
@@ -1567,7 +1585,7 @@ public class Principal extends javax.swing.JFrame {
                 conn.guardarTicket(ticketdeldia, txtElturno.getText());
 
                 String sdf = new SimpleDateFormat("dd-MM-yyyy").format(fecha22);
-                Ticket.ImprimirDocumento("================================\n" + "Cierre del dia: " + sdf + "\nTurno: " + txtElturno.getText() + "\n================================\n" + "Cantidad de ordenes: " + txtOrden.getText() + "\n" + "Total: $" + txtVntasDia.getText() + "\n================================\n" + "Cantidad de deliverys: " + txtDelivery.getText() + "\n" + "Total: $" + txtVntasDelivery.getText() + "\n" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n");
+                Ticket.ImprimirDocumento(("================================\n" + "Cierre del dia: " + sdf + "\nTurno: " + txtElturno.getText() + "\n================================\n" + "Cantidad de ordenes: " + txtOrden.getText() + "\n" + "Total: $" + txtVntasDia.getText() + "\n================================\n" + "Cantidad de deliverys: " + txtDelivery.getText() + "\n" + "Total: $" + txtVntasDelivery.getText() + "\n" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n" + "\n").getBytes());
 
                 if (txtElturno.getText().equals("Mañana")) {
                     String saludo = "Tarde";
@@ -1840,7 +1858,7 @@ public class Principal extends javax.swing.JFrame {
         miVariante.show();
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
-    private void btnOnlineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOnlineActionPerformed
+    private void btnOnlineActionPerformed(java.awt.event.ActionEvent evt) throws IOException {//GEN-FIRST:event_btnOnlineActionPerformed
         
         if (cmbVenta.getSelectedIndex() == 0) {
             b.venta(3, txtTotal, txtOrden, txtDelivery, txtVntasDia, txtVntasDelivery, txtVntasOtros, txtElturno, fecha22, pedidosya, pedidosyabtn, tabla, jScrollPane1, tStockeo);
@@ -1854,7 +1872,7 @@ public class Principal extends javax.swing.JFrame {
         cmbVenta.setSelectedIndex(0);
     }//GEN-LAST:event_btnOnlineActionPerformed
 
-    private void btnTarjetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTarjetaActionPerformed
+    private void btnTarjetaActionPerformed(java.awt.event.ActionEvent evt) throws IOException {//GEN-FIRST:event_btnTarjetaActionPerformed
         
         if (cmbVenta.getSelectedIndex() == 0) {
             b.venta(2, txtTotal, txtOrden, txtDelivery, txtVntasDia, txtVntasDelivery, txtVntasOtros, txtElturno, fecha22, pedidosya, pedidosyabtn, tabla, jScrollPane1, tStockeo);
@@ -1892,7 +1910,7 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDireccionDeliveryActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) throws IOException {//GEN-FIRST:event_jButton2ActionPerformed
         byte[] normalText = new byte[]{0x1D, 0x21, 0x00};
         byte[] normalSize = new byte[]{0x1D, 0x21, 0x00};
         byte[] largeSize = new byte[]{0x1D, 0x21, 0x11};
@@ -1915,17 +1933,19 @@ public class Principal extends javax.swing.JFrame {
         }catch(Exception ex){
             
         }
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Ticket.tamañoletra(boldOn);
-        Ticket.tamañoletra(center);
-        Ticket.tamañoletra(largeSize);
-        Ticket.ImprimirDocumento("Pinto el pollo\n");
-        Ticket.tamañoletra(bb);
-        Ticket.ImprimirDocumento("Numero:\n" + sorteo + "\n\n");
-        Ticket.tamañoletra(normalText);
-        Ticket.tamañoletra(doubleHeight);
-        Ticket.tamañoletra(left);
-        Ticket.ImprimirDocumento("Dejenos sus datos para participar del sorteo\n\nNombre:\n\n\nTelefono:\n\n\n Fecha: "+dateFormat.format(fecha22)+"\n\n\n\n\n\n\n");
+        out.write(boldOn);
+        out.write(center);
+        out.write(largeSize);
+        out.write(("Pinto el pollo\n").getBytes());
+        out.write(bb);
+        out.write(("Numero:\n" + sorteo + "\n\n").getBytes());
+        out.write(normalText);
+        out.write(doubleHeight);
+        out.write(left);
+        out.write(("Dejenos sus datos para participar del sorteo\n\nNombre:\n\n\nTelefono:\n\n\n Fecha: "+dateFormat.format(fecha22)+"\n\n\n\n\n\n\n").getBytes());
+        Ticket.ImprimirDocumento(out.toByteArray());
         
         
         String update = "UPDATE extras SET sorteo = sorteo + 1";

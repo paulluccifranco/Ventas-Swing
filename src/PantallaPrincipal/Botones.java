@@ -13,6 +13,9 @@ import Principales.VerTabla;
 import Ordenes.ConexionOrdenes;
 import Stock.TablaStock;
 import Ventas.Productos.ConexionVtaProductos;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -58,8 +61,9 @@ public class Botones {
     
     
     
-    public void venta(Integer mediodepago, JTextField txtTotal, JTextField txtOrden, JTextField txtDelivery, JTextField txtVntasDia, JTextField txtVntasDelivery, JTextField txtVntasOtros, JTextField txtElturno, Date fecha22, Integer pedidosya, JButton pedidosyabtn, JTable tabla, JScrollPane jScrollPane1, JTable tStockeo) {
-        
+    public void venta(Integer mediodepago, JTextField txtTotal, JTextField txtOrden, JTextField txtDelivery, JTextField txtVntasDia, JTextField txtVntasDelivery, JTextField txtVntasOtros, JTextField txtElturno, Date fecha22, Integer pedidosya, JButton pedidosyabtn, JTable tabla, JScrollPane jScrollPane1, JTable tStockeo) throws IOException {
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
 
             if (txtTotal.getText().equals("0")) {
                 JOptionPane.showMessageDialog(null, "Debe cargar un articulo primero", "Error al aceptar", JOptionPane.WARNING_MESSAGE);
@@ -70,16 +74,15 @@ public class Botones {
             Integer orden = Integer.parseInt(txtOrden.getText());
             orden++;
 
-
-            Ticket.tamañoletra(boldOn);
-            Ticket.tamañoletra(center);
-            Ticket.tamañoletra(largeSize);
-            Ticket.ImprimirDocumento("Pinto el pollo\n");
-            Ticket.tamañoletra(bb);
-            Ticket.ImprimirDocumento("Numero:\n" + orden + "\n========\n");
-            Ticket.tamañoletra(normalText);
-            Ticket.tamañoletra(doubleHeight);
-            Ticket.tamañoletra(left);
+        out.write(boldOn);
+        out.write(center);
+        out.write(largeSize);
+        out.write("Pinto el pollo\n".getBytes());
+        out.write(bb);
+        out.write(("Numero:\n" + orden + "\n========\n").getBytes());
+        out.write(normalText);
+        out.write(doubleHeight);
+        out.write(left);
 
             String cadena = "";
             String detalle = "";
@@ -112,15 +115,17 @@ public class Botones {
             } catch (Exception ex) {
                 System.out.println(ex);
             }
-            Ticket.ImprimirDocumento(cadena+"\nEspecificaciones: \n"+detalle);
-            Ticket.ImprimirDocumento("\n================================\n");
-            Ticket.tamañoletra(boldOn);
-            Ticket.tamañoletra(largeSize);
-            Ticket.tamañoletra(center);
-            Ticket.ImprimirDocumento("Total: $" + totaltext);
-            Ticket.tamañoletra(normalText);
-            Ticket.tamañoletra(doubleHeight);
-            Ticket.ImprimirDocumento("\n\n\n Fecha: "+dateFormat.format(fecha22)+"\n\n\n\n\n\n\n");
+        out.write((cadena+"\nEspecificaciones: \n"+detalle).getBytes());
+        out.write(("\n================================\n").getBytes());
+        out.write(boldOn);
+        out.write(largeSize);
+        out.write(center);
+        out.write(("Total: $" + totaltext).getBytes());
+        out.write(normalText);
+        out.write(doubleHeight);
+        out.write(("\n\n\n Fecha: "+dateFormat.format(fecha22)+"\n\n\n\n\n\n\n").getBytes());
+        Ticket.ImprimirDocumento(out.toByteArray());
+
 
             ultimo = "Numero:\n" + "  " + orden + "\n========\n" + cadena +"\nEspecificaciones: \n"+detalle+ "\n=======\nTotal: $" + totaltext + "\n\n\n Fecha: "+dateFormat.format(fecha22)+"\n\n\n\n\n";
 
@@ -144,7 +149,7 @@ public class Botones {
     
     
     
-    public void delivery(Integer mediodepago, JTextField txtTotal, JTextField txtOrden, JTextField txtDelivery, JTextField txtVntasDia, JTextField txtCosto,JTextField txtVntasDelivery, JTextField txtVntasOtros, JTextField txtElturno, Date fecha22, Integer pedidosya, JButton pedidosyabtn, JTable tabla, JScrollPane jScrollPane1, JTable tStockeo, String TelNumero){
+    public void delivery(Integer mediodepago, JTextField txtTotal, JTextField txtOrden, JTextField txtDelivery, JTextField txtVntasDia, JTextField txtCosto,JTextField txtVntasDelivery, JTextField txtVntasOtros, JTextField txtElturno, Date fecha22, Integer pedidosya, JButton pedidosyabtn, JTable tabla, JScrollPane jScrollPane1, JTable tStockeo, String TelNumero) throws IOException {
             if (txtTotal.getText().equals("0")) {
                 JOptionPane.showMessageDialog(null, "Debe cargar un articulo primero", "Error al aceptar", JOptionPane.WARNING_MESSAGE);
                 return;
@@ -282,36 +287,36 @@ public class Botones {
                 strestapago = "   PEDIDO PAGO";
             }
 
-            
-            Ticket.tamañoletra(left);
-            Ticket.tamañoletra(normalText);
-            Ticket.tamañoletra(doubleHeight);
-            Ticket.ImprimirDocumento("Delivery: " + orden);
-            Ticket.tamañoletra(boldOn);
-            Ticket.tamañoletra(largeSize);
-            Ticket.ImprimirDocumento("    "+txHora.getText());
-            Ticket.tamañoletra(left);
-            Ticket.tamañoletra(normalText);
-            Ticket.tamañoletra(doubleHeight);
-            Ticket.ImprimirDocumento("\n================================\n" + cadena + "\nEspecificaciones: \n"+detalle + "\n================================\n" + "Telefono: " + txTelefono.getText() + "\n\n" + "Nombre: " + txNombre.getText() + "\n\n" + "Direccion: " + txDireccion.getText() + "\n\n" + "Descripcion: " + txDescripcion.getText() + "\n================================\n" + "Total: $" + totaltext + strestapago +"\n" + "Vuelto: $" + abona + "\n\n\n Fecha: "+dateFormat.format(fecha22)+"\n\n\n\n\n");
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+        out.write(left);
+        out.write(normalText);
+        out.write(doubleHeight);
+        out.write(("Delivery: " + orden).getBytes());
+        out.write(boldOn);
+        out.write(largeSize);
+        out.write(("    "+txHora.getText()).getBytes());
+        out.write(left);
+        out.write(normalText);
+        out.write(doubleHeight);
+        out.write(("\n================================\n" + cadena + "\nEspecificaciones: \n"+detalle + "\n================================\n" + "Telefono: " + txTelefono.getText() + "\n\n" + "Nombre: " + txNombre.getText() + "\n\n" + "Direccion: " + txDireccion.getText() + "\n\n" + "Descripcion: " + txDescripcion.getText() + "\n================================\n" + "Total: $" + totaltext + strestapago +"\n" + "Vuelto: $" + abona + "\n\n\n Fecha: "+dateFormat.format(fecha22)+"\n\n\n\n\n").getBytes());
 
             int rta = JOptionPane.showConfirmDialog(null, "Desea imprimir un segundo ticket?");
             if (rta != 0) {
             } else {
-                Ticket.tamañoletra(left);
-                Ticket.tamañoletra(normalText);
-                Ticket.tamañoletra(doubleHeight);
-                Ticket.ImprimirDocumento("Delivery: " + orden);
-                Ticket.tamañoletra(rigth);
-                Ticket.tamañoletra(boldOn);
-                Ticket.tamañoletra(largeSize);
-                Ticket.ImprimirDocumento("    "+txHora.getText());
-                Ticket.tamañoletra(left);
-                Ticket.tamañoletra(normalText);
-                Ticket.tamañoletra(doubleHeight);
-                Ticket.ImprimirDocumento("\n================================\n" + cadena + "\nEspecificacion: \n" + detalle + "\n================================\n");
-                Ticket.ImprimirDocumento("Telefono: " + txTelefono.getText() + "\n\n" + "Nombre: " + txNombre.getText() + "\n\n" + "Direccion: " + txDireccion.getText() + "\n\n" + "Descripcion: " + txDescripcion.getText() + "\n================================\n" + "Total: $" + totaltext + strestapago + "\n" + "Vuelto: $" + abona + "\n\n\n Fecha: " + dateFormat.format(fecha22) + "\n\n\n\n\n");
-
+                out.write(left);
+                out.write(normalText);
+                out.write(doubleHeight);
+                out.write(("Delivery: " + orden).getBytes());
+                out.write(rigth);
+                out.write(boldOn);
+                out.write(largeSize);
+                out.write(("    "+txHora.getText()).getBytes());
+                out.write(left);
+                out.write(normalText);
+                out.write(doubleHeight);
+                out.write(("\n================================\n" + cadena + "\nEspecificacion: \n" + detalle + "\n================================\n").getBytes());
+                out.write(("Telefono: " + txTelefono.getText() + "\n\n" + "Nombre: " + txNombre.getText() + "\n\n" + "Direccion: " + txDireccion.getText() + "\n\n" + "Descripcion: " + txDescripcion.getText() + "\n================================\n" + "Total: $" + totaltext + strestapago + "\n" + "Vuelto: $" + abona + "\n\n\n Fecha: " + dateFormat.format(fecha22) + "\n\n\n\n\n").getBytes());
+                Ticket.ImprimirDocumento(out.toByteArray());
             }
 
             ultimo = "Delivery: " + orden + "\n=======\n" + cadena + "\n\n Especificacion: \n" + detalle + "\n=======\n" + "Telefono: " + txTelefono.getText() + "\n\n" + "Nombre: " + txNombre.getText() + "\n\n" + "Direccion: " + txDireccion.getText() + "\n\n" + "Descripcion: " + txDescripcion.getText() + "\n=======\n" + "Total: $" + totaltext + "\n" + "Vuelto: $" + abona + "\n\n\n Fecha: "+dateFormat.format(fecha22)+"\n\n\n\n\n";

@@ -74,7 +74,7 @@ public class FrameOrdenes extends javax.swing.JInternalFrame {
 				} catch (Exception ex) {
 
 				}
-				btnEliminar.setEnabled(true);
+				btnEliminar.setEnabled(false);
 
 			}
 		});
@@ -440,7 +440,7 @@ public class FrameOrdenes extends javax.swing.JInternalFrame {
 
 	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
 		String strin = txtRecibo.getText();
-		Ticket.ImprimirDocumento(strin);
+		Ticket.ImprimirDocumento(strin.getBytes());
 	}// GEN-LAST:event_jButton1ActionPerformed
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables

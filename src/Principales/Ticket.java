@@ -33,33 +33,13 @@ public class Ticket{
         return null;    // Si no lo encuentra nos devuelve un null
     }
 
+    public byte[] getBytesFronString(String chain) {
+        return chain.getBytes();
+    }
     
     
 
-    public static void ImprimirDocumento(String cadena){
-        
-        DocFlavor flavor = DocFlavor.BYTE_ARRAY.AUTOSENSE;
-
-        Ticket ticket = new Ticket();
-        PrintService service = ticket.impresora("tickets");
-        
-        DocPrintJob pj = service.createPrintJob();
-
-
-        byte[]bytes =cadena.getBytes();
-
-        Doc doc = new SimpleDoc(bytes, flavor,null);
-
-        try{
-
-        pj.print(doc,null);
-
-        }catch(Exception e){ }
-
-        }
-    
-    
-    public static void tamañoletra(byte[]bytes){
+    public static void ImprimirDocumento(byte[]bytes){
         
         DocFlavor flavor = DocFlavor.BYTE_ARRAY.AUTOSENSE;
 
@@ -76,6 +56,7 @@ public class Ticket{
 
         }catch(Exception e){ }
 
-        }
+    }
+
 
 }
